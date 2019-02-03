@@ -33,7 +33,7 @@
 
 #include "linux/XMemUtils.h"
 
-OMXPlayerVideo::OMXPlayerVideo()
+OMXPlayerVideo::OMXPlayerVideo(OMXControl* control)
 {
   m_open          = false;
   m_stream_id     = -1;
@@ -46,6 +46,7 @@ OMXPlayerVideo::OMXPlayerVideo()
   m_cached_size   = 0;
   m_iVideoDelay   = 0;
   m_iCurrentPts   = 0;
+  m_control       = control;
 
   pthread_cond_init(&m_packet_cond, NULL);
   pthread_cond_init(&m_picture_cond, NULL);
@@ -339,7 +340,7 @@ bool OMXPlayerVideo::OpenDecoder()
 
   m_frametime = (double)DVD_TIME_BASE / m_fps;
 
-  m_decoder = new COMXVideo();
+  m_decoder = new COMXVideo(m_control);
   if(!m_decoder->Open(m_av_clock, m_config))
   {
     CloseDecoder();

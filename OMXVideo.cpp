@@ -56,7 +56,7 @@
 #define OMX_THEORA_DECODER      OMX_VIDEO_DECODER
 #define OMX_MJPEG_DECODER       OMX_VIDEO_DECODER
 
-COMXVideo::COMXVideo() : m_video_codec_name("")
+COMXVideo::COMXVideo(OMXControl* control) : m_video_codec_name("")
 {
   m_is_open           = false;
   m_deinterlace       = false;
@@ -69,6 +69,7 @@ COMXVideo::COMXVideo() : m_video_codec_name("")
   m_setStartTime      = false;
   m_transform         = OMX_DISPLAY_ROT0;
   m_pixel_aspect      = 1.0f;
+  m_control           = control;
 }
 
 COMXVideo::~COMXVideo()
@@ -365,6 +366,9 @@ bool COMXVideo::PortSettingsChanged()
   }
 
   m_settings_changed = true;
+
+  printf("Sending signal...\n");
+  m_control->signalStarted();
   return true;
 }
 

@@ -132,6 +132,42 @@ void OMXControl::dispatch()
     dbus_connection_read_write(bus, 0);
 }
 
+void OMXControl::signalStarted()
+{
+  printf("Sending start message...\n");
+  DBusMessage* msg = dbus_message_new_signal("/redv/omx", "redv.omx.started", "started");
+  if (!msg) {
+    printf("Failed to create message\n");
+    return;
+  }
+
+  // send the message and flush the connection
+  if (!dbus_connection_send(bus, msg, NULL)) {
+    fprintf(stderr, "Out Of Memory!\n");
+    return;
+  }
+  
+  dbus_connection_flush(bus);
+}
+
+void OMXControl::signalEos()
+{
+  printf("Sending message...\n");
+  DBusMessage* msg = dbus_message_new_signal("/redv/omx", "redv.omx.eos", "eos");
+  if (!msg) {
+    printf("Failed to create message\n");
+    return;
+  }
+
+  // send the message and flush the connection
+  if (!dbus_connection_send(bus, msg, NULL)) {
+    fprintf(stderr, "Out Of Memory!\n");
+    return;
+  }
+  
+  dbus_connection_flush(bus);
+}
+
 int OMXControl::dbus_connect(std::string& dbus_name)
 {
   DBusError error;

@@ -105,7 +105,7 @@ bool              m_no_hdmi_clock_sync  = false;
 bool              m_stop                = false;
 int               m_subtitle_index      = -1;
 DllBcmHost        m_BcmHost;
-OMXPlayerVideo    m_player_video;
+OMXPlayerVideo    m_player_video(&m_omxcontrol);
 OMXPlayerAudio    m_player_audio;
 OMXPlayerSubtitles  m_player_subtitles;
 int               m_tv_show_info        = 0;
@@ -1826,6 +1826,10 @@ int main(int argc, char *argv[])
         OMXClock::OMXSleep(10);
     }
   }
+
+  m_omxcontrol.signalEos();
+  while (true)
+    sleep(1);
 
 do_exit:
   if (m_stats)

@@ -29,6 +29,7 @@
 
 #include "OMXClock.h"
 #include "OMXReader.h"
+#include "OMXControl.h"
 
 #include "guilib/Geometry.h"
 #include "utils/SingleLock.h"
@@ -89,7 +90,7 @@ class DllAvFormat;
 class COMXVideo
 {
 public:
-  COMXVideo();
+  COMXVideo(OMXControl* control);
   ~COMXVideo();
 
   // Required overrides
@@ -147,6 +148,7 @@ protected:
   OMX_DISPLAYTRANSFORMTYPE m_transform;
   bool              m_settings_changed;
   CCriticalSection  m_critSection;
+  OMXControl*       m_control;
 };
 
 #endif

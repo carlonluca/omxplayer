@@ -1,3 +1,5 @@
+#pragma once
+
 #define OMXPLAYER_DBUS_PATH_SERVER "/org/mpris/MediaPlayer2"  
 #define OMXPLAYER_DBUS_INTERFACE_ROOT "org.mpris.MediaPlayer2"
 #define OMXPLAYER_DBUS_INTERFACE_PLAYER "org.mpris.MediaPlayer2.Player"
@@ -40,6 +42,8 @@ public:
   int init(OMXClock *m_av_clock, OMXPlayerAudio *m_player_audio, OMXPlayerSubtitles *m_player_subtitles, OMXReader *m_omx_reader, std::string& dbus_name);
   OMXControlResult getEvent();
   void dispatch();
+  void signalEos();
+  void signalStarted();
 private:
   int dbus_connect(std::string& dbus_name);
   void dbus_disconnect();

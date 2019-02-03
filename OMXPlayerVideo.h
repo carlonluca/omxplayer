@@ -31,6 +31,7 @@
 #include "OMXStreamInfo.h"
 #include "OMXVideo.h"
 #include "OMXThread.h"
+#include "OMXControl.h"
 
 #include <deque>
 #include <sys/types.h>
@@ -66,6 +67,7 @@ protected:
   unsigned int              m_cached_size;
   double                    m_iVideoDelay;
   OMXVideoConfig            m_config;
+  OMXControl*               m_control;
 
   void Lock();
   void UnLock();
@@ -73,7 +75,7 @@ protected:
   void UnLockDecoder();
 private:
 public:
-  OMXPlayerVideo();
+  OMXPlayerVideo(OMXControl* control);
   ~OMXPlayerVideo();
   bool Open(OMXClock *av_clock, const OMXVideoConfig &config);
   bool Close();
