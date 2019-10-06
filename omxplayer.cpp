@@ -1739,6 +1739,11 @@ int main(int argc, char *argv[])
         {
           CLog::Log(LOGDEBUG, "Resume %.2f,%.2f (%d,%d,%d,%d) EOF:%d PKT:%p\n", audio_fifo, video_fifo, audio_fifo_low, video_fifo_low, audio_fifo_high, video_fifo_high, m_omx_reader.IsEof(), m_omx_pkt);
           m_av_clock->OMXResume();
+          static bool init = false;
+          if (!init) {
+            init = true;
+            m_omxcontrol.emitSignal("redv.omx.started", "started", false);
+          }
         }
       }
       else if (m_Pause || audio_fifo_low || video_fifo_low)
@@ -1876,6 +1881,7 @@ do_exit:
   g_OMX.Deinitialize();
   g_RBP.Deinitialize();
 
+  m_omxcontrol.emitSignal("redv.omx.eos", "eos", !m_send_eos);
   printf("have a nice day ;)\n");
 
   // exit status success on playback end

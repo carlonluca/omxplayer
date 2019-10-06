@@ -132,6 +132,43 @@ void OMXControl::dispatch()
     dbus_connection_read_write(bus, 0);
 }
 
+void OMXControl::emitSignal(const char *interface, const char *name, bool failure)
+{
+  fprintf(stderr, "Emitting signal");
+  dbus_uint32_t serial = 0; // unique number to associate replies with requests
+  DBusMessage* msg;
+  DBusMessageIter args;
+      
+   // create a signal and check for errors 
+   msg = dbus_message_new_signal("/redv/omx", // object name of the signal
+         interface, // interface name of the signal
+         name); // name of the signal
+   if (NULL == msg) 
+   { 
+      fprintf(stderr, "Message Null\n"); 
+      exit(1); 
+   }
+
+   // append arguments onto signal
+   dbus_message_iter_init_append(msg, &args);
+
+   dbus_bool_t failure_ = failure ? 1 : 0;
+   if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_BOOLEAN, &failure_)) { 
+      fprintf(stderr, "Out Of Memory!\n"); 
+      exit(1);
+   }
+
+   // send the message and flush the connection
+   if (!dbus_connection_send(bus, msg, &serial)) { 
+      fprintf(stderr, "Out Of Memory!\n"); 
+      exit(1);
+   }
+   dbus_connection_flush(bus);
+   
+   // free the message 
+   dbus_message_unref(msg);
+}
+
 int OMXControl::dbus_connect(std::string& dbus_name)
 {
   DBusError error;

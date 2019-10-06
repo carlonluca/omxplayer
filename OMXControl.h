@@ -40,6 +40,7 @@ public:
   int init(OMXClock *m_av_clock, OMXPlayerAudio *m_player_audio, OMXPlayerSubtitles *m_player_subtitles, OMXReader *m_omx_reader, std::string& dbus_name);
   OMXControlResult getEvent();
   void dispatch();
+  void emitSignal(const char *path, const char *name, bool failure);
 private:
   int dbus_connect(std::string& dbus_name);
   void dbus_disconnect();

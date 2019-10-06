@@ -21,8 +21,8 @@ configure:
 	LDFLAGS="" \
   ./configure \
 			--extra-cflags="-mfpu=vfp -mfloat-abi=hard" \
-			--enable-shared \
-			--disable-static \
+			--disable-shared \
+			--enable-static \
 			--arch=arm \
 			--cpu=arm1176jzf-s \
 			--target-os=linux \
@@ -33,14 +33,13 @@ configure:
 			--disable-encoders \
 			--disable-devices \
 			--disable-programs \
-			--enable-shared \
 			--disable-doc \
 			--disable-postproc \
 			--enable-gpl \
 			--enable-version3 \
 			--enable-protocols \
-			--enable-libsmbclient \
-			--enable-libssh \
+			--disable-libsmbclient \
+			--disable-libssh \
 			--enable-nonfree \
 			--enable-openssl \
 			--enable-pthreads \
